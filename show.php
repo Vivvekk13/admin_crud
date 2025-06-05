@@ -3,7 +3,7 @@
 
 include("connection.php");
 
-
+ 
 
 session_start();
 // $user_role = $_SESSION['role'] ?? 'client';
@@ -51,7 +51,7 @@ if (isset($_GET['id']) && isset($_GET['role'])) {
 
 }
 
-
+ $id = $_GET['id']; 
 
 ?>
 
@@ -97,6 +97,8 @@ if (isset($_GET['id']) && isset($_GET['role'])) {
       </thead>
       <tbody>
         <?php
+        
+        $isAdmin = "SELECT * FROM `notes` where id =  $id and role = 'admin'";
         $sql = "SELECT * FROM `notes` ORDER BY id desc";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
