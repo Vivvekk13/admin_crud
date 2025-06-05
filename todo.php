@@ -97,8 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ins->execute();
     $ins->close();
 
-
-header("location:http://localhost/vivek/show.php");
+  $lastId2 = $conn->insert_id;
+ header("location:http://localhost/vivek/show.php?id={$lastId2}");
    exit;
   }
 }
