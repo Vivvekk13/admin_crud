@@ -4,9 +4,9 @@
 include("connection.php");
 
  
-
 session_start();
-// $user_role = $_SESSION['role'] ?? 'client';
+$isAdmin = ($_SESSION['role'] ?? '') === 'admin';
+
 
 if (isset($_GET['delete'])) {
   $id = $_GET['delete'];
@@ -35,21 +35,37 @@ if (isset($_GET['id']) && isset($_GET['status_'])) {
 }
 
 
-if (isset($_GET['id']) && isset($_GET['role'])) {
-   $id = $_GET['id'];  
-       $role = $_GET['role'];   
+// if (isset($_GET['id']) && isset($_GET['role'])) {
+//    $id = $_GET['id'];  
+//        $role = $_GET['role'];   
   
 
-        if ($role == "admin" || $role == "client") {
-        $rl = $conn->prepare("UPDATE notes SET role = ? WHERE id = ?");
-        $rl->bind_param("si", $role, $id);
-        $rl->execute();
-        $rl->close();
+//         if ($role == "admin" || $role == "client") {
+//         $rl = $conn->prepare("UPDATE notes SET role = ? WHERE id = ?");
+//         $rl->bind_param("si", $role, $id);
+//         $rl->execute();
+//         $rl->close();
 
          
+// }
+
+// }
+
+
+$isAdmin = false;
+
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $checkAdmin = $conn->prepare("SELECT role FROM notes WHERE id = ?");
+    $checkAdmin->bind_param("i", $_GET['id']);
+    $checkAdmin->execute();
+    $result = $checkAdmin->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $isAdmin = ($row['role'] === 'admin');
+    }
+    $checkAdmin->close();
 }
 
-}
+
 
  $id = $_GET['id']; 
 
@@ -83,49 +99,48 @@ if (isset($_GET['id']) && isset($_GET['role'])) {
   <div class="container mt-4">
     <h2>All Employees Details</h2>
     <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th>Srno</th>
-          <th>Name</th>
-          <th>Email/Username</th>
-          <th>Mobile Number </th>
-          <th>Address</th>
-          <th>status</th>
-          <th>Date & Time</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <thead class="thead-dark">
+  <tr>
+    <th>Srno</th>
+    <th>Name</th>
+    <th>Email/Username</th>
+    <th>Mobile Number</th>
+    <th>Address</th>
+    <th>Status</th>
+    <th>Date & Time</th>
+    <?php if ($isAdmin): ?>
+      <th>Actions</th>
+    <?php endif; ?>
+  </tr>
+</thead>
       <tbody>
-        <?php
-        
-        $isAdmin = "SELECT * FROM `notes` where id =  $id and role = 'admin'";
-        $sql = "SELECT * FROM `notes` ORDER BY id desc";
-        $result = mysqli_query($conn, $sql);
-        while ($row = mysqli_fetch_assoc($result)) {
-          
-           $statusText = ($row['status_'] == 1) ? 'Active' : 'Inactive';
-         
-echo "<tr>
-  <th scope='row'>{$row['id']}</th>
-  <td>{$row['Name']}</td>
-  <td>{$row['Email']}</td>
-  <td>{$row['mobile_number']}</td>
-  <td>{$row['address']}</td>
-  <td>{$statusText}</td>
-    <td>";
+<?php
+$sql = "SELECT * FROM `notes` ORDER BY id DESC";
+$result = mysqli_query($conn, $sql);
 
-if ($row['role'] == 'admin') {
-  echo "<a href='update.php?id={$row['id']}' class='btn btn-success btn-sm'>Edit</a> ";
-  echo "<a href='?delete={$row['id']}' class='btn btn-danger btn-sm' onclick=\"return confirm('Are you sure?');\">Delete</a>";
-} else {
-  echo "<span class='text-muted'>No Access</span>";
+while ($row = mysqli_fetch_assoc($result)) {
+    $statusText = ($row['status_'] == 1) ? 'Active' : 'Inactive';
+    echo "<tr>
+        <td>{$row['id']}</td>
+        <td>{$row['Name']}</td>
+        <td>{$row['Email']}</td>
+        <td>{$row['mobile_number']}</td>
+        <td>{$row['address']}</td>
+        <td>{$statusText}</td>
+        <td>{$row['tstamp']}</td>";
+    
+    if ($isAdmin) {
+        echo "<td>
+            <a href='update.php?id={$row['id']}' class='btn btn-success btn-sm'>Edit</a>
+            <a href='?delete={$row['id']}' class='btn btn-danger btn-sm' onclick=\"return confirm('Are you sure?');\">Delete</a>
+        </td>";
+    }
+
+    echo "</tr>";
 }
+?>
+</tbody>
 
-echo "</td>
-  <td>{$row['tstamp']}</td>
-</tr>";
-  }  ?>
-      </tbody>
     </table>
   </div>
 
