@@ -68,12 +68,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
    if($result){
     echo "<script> alert('record updated') </script>";
-   header("location:http://localhost/vivek/todo.php");
+   
+  header("location:http://localhost/vivek/show.php?id={$row['id']}");
    
    }
 
   }
 }
+
+
+
+
+
+
 
 
 ?>
@@ -103,11 +110,11 @@ tr,td,th{
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<a class="navbar-brand" href="http://localhost/vivek/todo.php">
+<a class="navbar-brand" href="http://localhost/vivek/login.php">
     <img src="valethi.webp " width="50" height="50" alt="">
   </a>
  
-<a class="navbar-brand" href="http://localhost/vivek/todo.php">Valethi Technologies</a>
+<a class="navbar-brand" href="http://localhost/vivek/login.php">Valethi Technologies</a>
 </nav>
 
 <div class="container mt-4">
