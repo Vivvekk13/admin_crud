@@ -32,7 +32,7 @@ function clean_inputs($field)
   return $field;
 }
 
-$Name1=$Email1 =$mobile_number1 ="";
+$Name1=$Email1 =$mobile_number1 =$address1="";
 
 $status_ = 0;
 
@@ -84,6 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $isValid = false;
      $mobile_number1= $_POST["mobile_number"];
   }
+
+    $address1= $_POST["address"];
 
 
   if ($role !== 'admin' && $role !== 'client') {
@@ -138,11 +140,11 @@ tr,td,th{
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="http://localhost/vivek/todo.php">
+    <a class="navbar-brand" href="http://localhost/vivek/login.php">
       <img src="valethi.webp " width="50" height="50" alt="">
     </a>
 
-    <a class="navbar-brand" href="http://localhost/vivek/todo.php">Valethi Technologies</a>
+    <a class="navbar-brand" href="http://localhost/vivek/login.php">Valethi Technologies</a>
   </nav>
 
   <div class="container mt-4" >
@@ -160,7 +162,7 @@ tr,td,th{
       <div class="form-group">
         <label for="Email">Email/Username <span style="color:red">*</span></label>
        <input type="text" class="form-control" id="Email" name="Email"
-       value="<?php echo htmlspecialchars($row['Email2'] ?? ''); ?>" required>
+       value="<?php echo htmlspecialchars($row['Email2'] ?? ''); ?>" readonly required>
      <?php if ($EmailErr) {
           echo $EmailErr;
         }
@@ -196,7 +198,7 @@ tr,td,th{
 </select>
 
 
-  <?php var_dump($status_); ?>
+  <!-- <?php var_dump($status_); ?> -->
 </div>
 
 
@@ -217,7 +219,7 @@ tr,td,th{
 
       <div class="form-group">
         <label for="address">Address <span style="color:red">*</span></label>
-        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+        <input type="textarea" class="form-control" id="address" name="address" rows="3" value="<?php echo htmlspecialchars($address1) ?>" required></input>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
