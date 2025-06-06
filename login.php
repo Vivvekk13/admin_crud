@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
           <form method="POST">
          <div class="form-group">
-        <label for="Email">Email/Username<span style="color:red">*</span></label>
+        <label for="Email">Email/Username <span style="color:red">*</span></label>
         <input type="text" class="form-control" id="Email" name="Email2" value="<?php $id ?>" placeholder="Enter Email" required>
         <?php if ($EmailErr) {
           echo $EmailErr;
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      
             <div data-mdb-input-init class="form-outline mb-4">
               <input type="password" id="form2Example2" class="form-control" name="password1" placeholder="Enter Password"  required/>
-              <label class="form-label" for="form2Example2">Password</label>
+              <label class="form-label" for="form2Example2">Password <span style="color:red">*</span></label>
                <?php if ( $passwordErr) {
           echo  $passwordErr;
         }
