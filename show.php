@@ -14,7 +14,8 @@ if (isset($_GET['delete'])) {
   $dlt->bind_param("i", $id);
   $dlt->execute();
   $dlt->close();
-  header("location:http://localhost/vivek/show.php");
+  
+  header("location:http://localhost/vivek/show.php?");
 }
 
 
@@ -67,7 +68,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 
 
- $id = $_GET['id']; 
 
 ?>
 
@@ -84,11 +84,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="http://localhost/vivek/todo.php">
+    <a class="navbar-brand" href="http://localhost/vivek/login.php">
       <img src="valethi.webp " width="50" height="50" alt="">
     </a>
 
-    <a class="navbar-brand" href="http://localhost/vivek/todo.php">Valethi Technologies</a>
+    <a class="navbar-brand" href="http://localhost/vivek/login.php">Valethi Technologies</a>
   </nav>
 
 
